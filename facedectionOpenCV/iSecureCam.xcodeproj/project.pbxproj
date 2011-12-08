@@ -1,0 +1,412 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		371BCE26148FEB4100BCE10E /* OpenCV.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 371BCE25148FEB4100BCE10E /* OpenCV.framework */; };
+		371BCE29148FEBB600BCE10E /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 371BCE28148FEBB600BCE10E /* libz.dylib */; };
+		371BCE2B148FEBCA00BCE10E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 371BCE2A148FEBCA00BCE10E /* AVFoundation.framework */; };
+		371BCE2D148FEBD400BCE10E /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 371BCE2C148FEBD400BCE10E /* ImageIO.framework */; };
+		371BCE30148FEC4400BCE10E /* UIImage+OpenCV.mm in Sources */ = {isa = PBXBuildFile; fileRef = 371BCE2E148FEC4400BCE10E /* UIImage+OpenCV.mm */; };
+		371BCE3C149000B000BCE10E /* haarcascade_frontalface_default.xml in Resources */ = {isa = PBXBuildFile; fileRef = 371BCE38149000B000BCE10E /* haarcascade_frontalface_default.xml */; };
+		371BCE3D149000B000BCE10E /* haarcascade_frontalface_alt_tree.xml in Resources */ = {isa = PBXBuildFile; fileRef = 371BCE39149000B000BCE10E /* haarcascade_frontalface_alt_tree.xml */; };
+		371BCE3E149000B000BCE10E /* haarcascade_frontalface_alt.xml in Resources */ = {isa = PBXBuildFile; fileRef = 371BCE3A149000B000BCE10E /* haarcascade_frontalface_alt.xml */; };
+		371BCE3F149000B000BCE10E /* haarcascade_frontalface_alt2.xml in Resources */ = {isa = PBXBuildFile; fileRef = 371BCE3B149000B000BCE10E /* haarcascade_frontalface_alt2.xml */; };
+		371BCE41149004A900BCE10E /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 371BCE40149004A900BCE10E /* CoreVideo.framework */; };
+		371BCE43149004FA00BCE10E /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 371BCE42149004FA00BCE10E /* CoreMedia.framework */; };
+		37212B60148EC32100317364 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37212B5F148EC32100317364 /* UIKit.framework */; };
+		37212B62148EC32100317364 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37212B61148EC32100317364 /* Foundation.framework */; };
+		37212B64148EC32100317364 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37212B63148EC32100317364 /* CoreGraphics.framework */; };
+		37212B6A148EC32100317364 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 37212B68148EC32100317364 /* InfoPlist.strings */; };
+		37212B6C148EC32100317364 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 37212B6B148EC32100317364 /* main.m */; };
+		37212B70148EC32100317364 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 37212B6F148EC32100317364 /* AppDelegate.m */; };
+		37212B73148EC32100317364 /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 37212B72148EC32100317364 /* ViewController.mm */; };
+		37212B76148EC32100317364 /* ViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 37212B74148EC32100317364 /* ViewController_iPhone.xib */; };
+		37212B79148EC32100317364 /* ViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 37212B77148EC32100317364 /* ViewController_iPad.xib */; };
+		37212B91148ECB3B00317364 /* ObjectiveFlickr.m in Sources */ = {isa = PBXBuildFile; fileRef = 37212B8C148ECB3B00317364 /* ObjectiveFlickr.m */; };
+		37212B92148ECB3B00317364 /* OFUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 37212B8E148ECB3B00317364 /* OFUtilities.m */; };
+		37212B93148ECB3B00317364 /* OFXMLMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 37212B90148ECB3B00317364 /* OFXMLMapper.m */; };
+		37212BA6148ECBA600317364 /* LFHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 37212BA0148ECBA600317364 /* LFHTTPRequest.m */; };
+		37212BA7148ECBA600317364 /* LFSiteReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 37212BA2148ECBA600317364 /* LFSiteReachability.m */; };
+		37212BA8148ECBA600317364 /* NSData+LFHTTPFormExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 37212BA5148ECBA600317364 /* NSData+LFHTTPFormExtensions.m */; };
+		37212BAA148ECBE700317364 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37212BA9148ECBE700317364 /* SystemConfiguration.framework */; };
+		37212BAC148ECBF300317364 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37212BAB148ECBF300317364 /* CFNetwork.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		371BCE25148FEB4100BCE10E /* OpenCV.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OpenCV.framework; sourceTree = "<group>"; };
+		371BCE28148FEBB600BCE10E /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		371BCE2A148FEBCA00BCE10E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		371BCE2C148FEBD400BCE10E /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		371BCE2E148FEC4400BCE10E /* UIImage+OpenCV.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "UIImage+OpenCV.mm"; path = "../iSecureCam/UIImage+OpenCV.mm"; sourceTree = "<group>"; };
+		371BCE2F148FEC4400BCE10E /* UIImage+OpenCV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+OpenCV.h"; path = "../iSecureCam/UIImage+OpenCV.h"; sourceTree = "<group>"; };
+		371BCE38149000B000BCE10E /* haarcascade_frontalface_default.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = haarcascade_frontalface_default.xml; sourceTree = "<group>"; };
+		371BCE39149000B000BCE10E /* haarcascade_frontalface_alt_tree.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = haarcascade_frontalface_alt_tree.xml; sourceTree = "<group>"; };
+		371BCE3A149000B000BCE10E /* haarcascade_frontalface_alt.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = haarcascade_frontalface_alt.xml; sourceTree = "<group>"; };
+		371BCE3B149000B000BCE10E /* haarcascade_frontalface_alt2.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = haarcascade_frontalface_alt2.xml; sourceTree = "<group>"; };
+		371BCE40149004A900BCE10E /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		371BCE42149004FA00BCE10E /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		37212B5B148EC32100317364 /* iSecureCam.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iSecureCam.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		37212B5F148EC32100317364 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		37212B61148EC32100317364 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		37212B63148EC32100317364 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		37212B67148EC32100317364 /* iSecureCam-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "iSecureCam-Info.plist"; sourceTree = "<group>"; };
+		37212B69148EC32100317364 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		37212B6B148EC32100317364 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		37212B6D148EC32100317364 /* iSecureCam-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iSecureCam-Prefix.pch"; sourceTree = "<group>"; };
+		37212B6E148EC32100317364 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		37212B6F148EC32100317364 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		37212B71148EC32100317364 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		37212B72148EC32100317364 /* ViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ViewController.mm; sourceTree = "<group>"; };
+		37212B75148EC32100317364 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController_iPhone.xib; sourceTree = "<group>"; };
+		37212B78148EC32100317364 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController_iPad.xib; sourceTree = "<group>"; };
+		37212B8B148ECB3B00317364 /* ObjectiveFlickr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectiveFlickr.h; sourceTree = "<group>"; };
+		37212B8C148ECB3B00317364 /* ObjectiveFlickr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjectiveFlickr.m; sourceTree = "<group>"; };
+		37212B8D148ECB3B00317364 /* OFUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OFUtilities.h; sourceTree = "<group>"; };
+		37212B8E148ECB3B00317364 /* OFUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OFUtilities.m; sourceTree = "<group>"; };
+		37212B8F148ECB3B00317364 /* OFXMLMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OFXMLMapper.h; sourceTree = "<group>"; };
+		37212B90148ECB3B00317364 /* OFXMLMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OFXMLMapper.m; sourceTree = "<group>"; };
+		37212B9F148ECBA600317364 /* LFHTTPRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFHTTPRequest.h; sourceTree = "<group>"; };
+		37212BA0148ECBA600317364 /* LFHTTPRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFHTTPRequest.m; sourceTree = "<group>"; };
+		37212BA1148ECBA600317364 /* LFSiteReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFSiteReachability.h; sourceTree = "<group>"; };
+		37212BA2148ECBA600317364 /* LFSiteReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFSiteReachability.m; sourceTree = "<group>"; };
+		37212BA3148ECBA600317364 /* LFWebAPIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFWebAPIKit.h; sourceTree = "<group>"; };
+		37212BA4148ECBA600317364 /* NSData+LFHTTPFormExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+LFHTTPFormExtensions.h"; sourceTree = "<group>"; };
+		37212BA5148ECBA600317364 /* NSData+LFHTTPFormExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+LFHTTPFormExtensions.m"; sourceTree = "<group>"; };
+		37212BA9148ECBE700317364 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		37212BAB148ECBF300317364 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		37212B58148EC32100317364 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				371BCE43149004FA00BCE10E /* CoreMedia.framework in Frameworks */,
+				371BCE41149004A900BCE10E /* CoreVideo.framework in Frameworks */,
+				371BCE2D148FEBD400BCE10E /* ImageIO.framework in Frameworks */,
+				371BCE2B148FEBCA00BCE10E /* AVFoundation.framework in Frameworks */,
+				371BCE29148FEBB600BCE10E /* libz.dylib in Frameworks */,
+				37212BAC148ECBF300317364 /* CFNetwork.framework in Frameworks */,
+				37212BAA148ECBE700317364 /* SystemConfiguration.framework in Frameworks */,
+				37212B60148EC32100317364 /* UIKit.framework in Frameworks */,
+				37212B62148EC32100317364 /* Foundation.framework in Frameworks */,
+				37212B64148EC32100317364 /* CoreGraphics.framework in Frameworks */,
+				371BCE26148FEB4100BCE10E /* OpenCV.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		371BCE31148FEC4D00BCE10E /* Lib */ = {
+			isa = PBXGroup;
+			children = (
+				371BCE2E148FEC4400BCE10E /* UIImage+OpenCV.mm */,
+				371BCE2F148FEC4400BCE10E /* UIImage+OpenCV.h */,
+			);
+			name = Lib;
+			path = Source;
+			sourceTree = "<group>";
+		};
+		37212B50148EC32100317364 = {
+			isa = PBXGroup;
+			children = (
+				371BCE31148FEC4D00BCE10E /* Lib */,
+				37212B8A148ECB3B00317364 /* ObjectFlickr */,
+				37212B65148EC32100317364 /* iSecureCam */,
+				37212B5E148EC32100317364 /* Frameworks */,
+				37212B5C148EC32100317364 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		37212B5C148EC32100317364 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				37212B5B148EC32100317364 /* iSecureCam.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		37212B5E148EC32100317364 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				371BCE42149004FA00BCE10E /* CoreMedia.framework */,
+				371BCE40149004A900BCE10E /* CoreVideo.framework */,
+				371BCE2C148FEBD400BCE10E /* ImageIO.framework */,
+				371BCE2A148FEBCA00BCE10E /* AVFoundation.framework */,
+				371BCE28148FEBB600BCE10E /* libz.dylib */,
+				371BCE25148FEB4100BCE10E /* OpenCV.framework */,
+				37212BA9148ECBE700317364 /* SystemConfiguration.framework */,
+				37212BAB148ECBF300317364 /* CFNetwork.framework */,
+				37212B5F148EC32100317364 /* UIKit.framework */,
+				37212B61148EC32100317364 /* Foundation.framework */,
+				37212B63148EC32100317364 /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		37212B65148EC32100317364 /* iSecureCam */ = {
+			isa = PBXGroup;
+			children = (
+				37212B6E148EC32100317364 /* AppDelegate.h */,
+				37212B6F148EC32100317364 /* AppDelegate.m */,
+				37212B71148EC32100317364 /* ViewController.h */,
+				37212B72148EC32100317364 /* ViewController.mm */,
+				37212B74148EC32100317364 /* ViewController_iPhone.xib */,
+				37212B77148EC32100317364 /* ViewController_iPad.xib */,
+				37212B66148EC32100317364 /* Supporting Files */,
+			);
+			path = iSecureCam;
+			sourceTree = "<group>";
+		};
+		37212B66148EC32100317364 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				371BCE38149000B000BCE10E /* haarcascade_frontalface_default.xml */,
+				371BCE39149000B000BCE10E /* haarcascade_frontalface_alt_tree.xml */,
+				371BCE3A149000B000BCE10E /* haarcascade_frontalface_alt.xml */,
+				371BCE3B149000B000BCE10E /* haarcascade_frontalface_alt2.xml */,
+				37212B67148EC32100317364 /* iSecureCam-Info.plist */,
+				37212B68148EC32100317364 /* InfoPlist.strings */,
+				37212B6B148EC32100317364 /* main.m */,
+				37212B6D148EC32100317364 /* iSecureCam-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		37212B8A148ECB3B00317364 /* ObjectFlickr */ = {
+			isa = PBXGroup;
+			children = (
+				37212B9F148ECBA600317364 /* LFHTTPRequest.h */,
+				37212BA0148ECBA600317364 /* LFHTTPRequest.m */,
+				37212BA1148ECBA600317364 /* LFSiteReachability.h */,
+				37212BA2148ECBA600317364 /* LFSiteReachability.m */,
+				37212BA3148ECBA600317364 /* LFWebAPIKit.h */,
+				37212BA4148ECBA600317364 /* NSData+LFHTTPFormExtensions.h */,
+				37212BA5148ECBA600317364 /* NSData+LFHTTPFormExtensions.m */,
+				37212B8B148ECB3B00317364 /* ObjectiveFlickr.h */,
+				37212B8C148ECB3B00317364 /* ObjectiveFlickr.m */,
+				37212B8D148ECB3B00317364 /* OFUtilities.h */,
+				37212B8E148ECB3B00317364 /* OFUtilities.m */,
+				37212B8F148ECB3B00317364 /* OFXMLMapper.h */,
+				37212B90148ECB3B00317364 /* OFXMLMapper.m */,
+			);
+			name = ObjectFlickr;
+			path = Source;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		37212B5A148EC32100317364 /* iSecureCam */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 37212B7C148EC32100317364 /* Build configuration list for PBXNativeTarget "iSecureCam" */;
+			buildPhases = (
+				37212B57148EC32100317364 /* Sources */,
+				37212B58148EC32100317364 /* Frameworks */,
+				37212B59148EC32100317364 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = iSecureCam;
+			productName = iSecureCam;
+			productReference = 37212B5B148EC32100317364 /* iSecureCam.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		37212B52148EC32100317364 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
+			buildConfigurationList = 37212B55148EC32100317364 /* Build configuration list for PBXProject "iSecureCam" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 37212B50148EC32100317364;
+			productRefGroup = 37212B5C148EC32100317364 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				37212B5A148EC32100317364 /* iSecureCam */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		37212B59148EC32100317364 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				37212B6A148EC32100317364 /* InfoPlist.strings in Resources */,
+				37212B76148EC32100317364 /* ViewController_iPhone.xib in Resources */,
+				37212B79148EC32100317364 /* ViewController_iPad.xib in Resources */,
+				371BCE3C149000B000BCE10E /* haarcascade_frontalface_default.xml in Resources */,
+				371BCE3D149000B000BCE10E /* haarcascade_frontalface_alt_tree.xml in Resources */,
+				371BCE3E149000B000BCE10E /* haarcascade_frontalface_alt.xml in Resources */,
+				371BCE3F149000B000BCE10E /* haarcascade_frontalface_alt2.xml in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		37212B57148EC32100317364 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				37212B6C148EC32100317364 /* main.m in Sources */,
+				37212B70148EC32100317364 /* AppDelegate.m in Sources */,
+				37212B73148EC32100317364 /* ViewController.mm in Sources */,
+				37212B91148ECB3B00317364 /* ObjectiveFlickr.m in Sources */,
+				37212B92148ECB3B00317364 /* OFUtilities.m in Sources */,
+				37212B93148ECB3B00317364 /* OFXMLMapper.m in Sources */,
+				37212BA6148ECBA600317364 /* LFHTTPRequest.m in Sources */,
+				37212BA7148ECBA600317364 /* LFSiteReachability.m in Sources */,
+				37212BA8148ECBA600317364 /* NSData+LFHTTPFormExtensions.m in Sources */,
+				371BCE30148FEC4400BCE10E /* UIImage+OpenCV.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		37212B68148EC32100317364 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				37212B69148EC32100317364 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		37212B74148EC32100317364 /* ViewController_iPhone.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				37212B75148EC32100317364 /* en */,
+			);
+			name = ViewController_iPhone.xib;
+			sourceTree = "<group>";
+		};
+		37212B77148EC32100317364 /* ViewController_iPad.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				37212B78148EC32100317364 /* en */,
+			);
+			name = ViewController_iPad.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		37212B7A148EC32100317364 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		37212B7B148EC32100317364 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		37212B7D148EC32100317364 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "iSecureCam/iSecureCam-Prefix.pch";
+				INFOPLIST_FILE = "iSecureCam/iSecureCam-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		37212B7E148EC32100317364 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "iSecureCam/iSecureCam-Prefix.pch";
+				INFOPLIST_FILE = "iSecureCam/iSecureCam-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		37212B55148EC32100317364 /* Build configuration list for PBXProject "iSecureCam" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				37212B7A148EC32100317364 /* Debug */,
+				37212B7B148EC32100317364 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		37212B7C148EC32100317364 /* Build configuration list for PBXNativeTarget "iSecureCam" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				37212B7D148EC32100317364 /* Debug */,
+				37212B7E148EC32100317364 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 37212B52148EC32100317364 /* Project object */;
+}
