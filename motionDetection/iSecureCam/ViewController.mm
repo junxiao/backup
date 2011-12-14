@@ -22,6 +22,9 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
 - (IplImage *)CreateIplImageFromUIImage:(UIImage *)image;
 - (UIImage *)UIImageFromIplImage:(IplImage *)image;
 - (void) saveToFile:(UIImage *)image;
+- (void) saveViewToFile:(UIView *)someView;
+- (void) saveImageFromSampleBuffer:(CMSampleBufferRef) sampleBuffer;
+- (void) delayedCapture;
 
 @property (nonatomic,retain) AVCaptureSession* session;
 @property (nonatomic, retain) NSTimer * timer;
@@ -31,6 +34,7 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
 
 @synthesize session;
 @synthesize timer;
+@synthesize appSettingsViewController;
 
 - (void)didReceiveMemoryWarning
 {
@@ -40,6 +44,8 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
 
 #pragma mark - View lifecycle
 
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -47,38 +53,89 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     storage = cvCreateMemStorage(0);
 	cvSetErrMode(CV_ErrModeParent);
     
-//	NSString *path = [[NSBundle mainBundle] pathForResource:@"haarcascade_frontalface_default" ofType:@"xml"];
-//	NSLog(@"loading cascade from %@", path);
-    
- //   IplImage* hack = cvCreateImage(cvSize(320,240),IPL_DEPTH_8U,1);  
-//	cascade = (CvHaarClassifierCascade*)cvLoad([path cStringUsingEncoding:NSASCIIStringEncoding], NULL, NULL, NULL);
-    
     firstFlag =true;
+    captureFlag = false;
 
-    timer = [NSTimer scheduledTimerWithTimeInterval: 60
+    timer = [NSTimer scheduledTimerWithTimeInterval: 30
                                              target: self
                                            selector: @selector(handleTimer:)
                                            userInfo: nil
                                             repeats: YES];
     
-/*     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-   NSMutableDictionary *defaultsDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"julianxiao@gmail.com", @"fromEmail",
-                                               @"julianxiao@gmail.com", @"toEmail",
-                                               @"smtp.gmail.com", @"relayHost",
-                                               @"julianxiao@gmail.com", @"login",
-                                               @"njiang75", @"pass",
-                                               [NSNumber numberWithBool:YES], @"requiredAuth",
-                                               [NSNumber numberWithBool:YES], @"wantsSecure", nil];
-    
-    [userDefaults registerDefaults:defaultsDictionary]; */
-    
     uploadCounter = 0;
 
-	[self setupCaptureSession];
+    [UIApplication sharedApplication].idleTimerDisabled = NO;
+    [UIApplication sharedApplication].idleTimerDisabled = YES;
+    
+    NSString *settingsBundle = [[NSBundle mainBundle] pathForResource:@"Settings" ofType:@"bundle"];
+    if(!settingsBundle) {
+        NSLog(@"Could not find Settings.bundle");
+        return;
+    }
+    
+    NSDictionary *settings = [NSDictionary dictionaryWithContentsOfFile:[settingsBundle stringByAppendingPathComponent:@"Root.plist"]];
+   
+    NSArray *preferences = [settings objectForKey:@"PreferenceSpecifiers"];
+    
+    NSMutableDictionary *defaultsToRegister = [[NSMutableDictionary alloc] initWithCapacity:[preferences count]];
+    for(NSDictionary *prefSpecification in preferences) {
+        NSString *key = [prefSpecification objectForKey:@"Key"];
+        if(key) {
+            if ([prefSpecification objectForKey:@"DefaultValue"])
+                [defaultsToRegister setObject:[prefSpecification objectForKey:@"DefaultValue"] forKey:key];
+        }
+    }
+    
+    [[NSUserDefaults standardUserDefaults] registerDefaults:defaultsToRegister];
+    [defaultsToRegister release];
+    
+    if (![[NSUserDefaults standardUserDefaults] synchronize])
+        NSLog(@"not successful in writing the default prefs");
+ }
 
+#pragma mark IASKAppSettingsViewControllerDelegate protocol
+- (void)settingsViewControllerDidEnd:(IASKAppSettingsViewController*)sender {
+    [self dismissModalViewControllerAnimated:YES];
+    [self setupCaptureSession];    
 }
+
+- (IBAction)showSettingsPush:(id)sender 
+{
+    appSettingsViewController = [[[IASKAppSettingsViewController alloc] initWithNibName:@"IASKAppSettingsView" bundle:nil] autorelease];
+    appSettingsViewController.delegate = self;
+    appSettingsViewController.showDoneButton = YES;
+    UINavigationController *aNavController = [[[UINavigationController alloc] initWithRootViewController:appSettingsViewController] autorelease];
+    [self presentModalViewController:aNavController animated:YES];
+}
+
 - (void) handleTimer: (NSTimer *) timer
 {
+
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    NSDateFormatter *format = [[NSDateFormatter alloc] init];
+    [format setDateFormat:@"MMM dd, yyyy HH:mm"];
+    
+    NSDate *now = [[NSDate alloc] init];
+    
+    NSString *dateString = [format stringFromDate:now];
+    dateString = [dateString substringWithRange:NSMakeRange(13, 2)];
+ 
+    int h = [dateString intValue];
+
+    if(h>= [[defaults objectForKey:@"startTime_preference"] intValue] && h <= [[defaults objectForKey:@"endTime_preference"] intValue])
+    {
+        captureFlag = true;
+    }
+    else
+    {
+        captureFlag = false;
+    }
+
+    [format setDateFormat:@"MMM dd, yyyy"];
+    dateString = [format stringFromDate:now];
+    [now release];
+    [format release];
 
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, 
                                                          NSUserDomainMask, YES);
@@ -88,71 +145,32 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     NSArray *ContentOfDirectory=[flManager contentsOfDirectoryAtPath:documentsDirectory error:NULL];
     
     if([ContentOfDirectory count]==0) return;
-    
+        
     NSString *fileName=[ContentOfDirectory objectAtIndex:0];
     NSString* path = [documentsDirectory stringByAppendingPathComponent:fileName];
     
-    
-
-//    NSString* path = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat: @"test%d.jpg", uploadCounter]];
-    
-  
-/*    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    
     SKPSMTPMessage *testMsg = [[SKPSMTPMessage alloc] init];
-    testMsg.fromEmail = [defaults objectForKey:@"fromEmail"];
+    testMsg.fromEmail = [defaults objectForKey:@"emailFrom_preference"];
+    NSLog(@"from email %@", testMsg.fromEmail);
     
-    testMsg.toEmail = [defaults objectForKey:@"toEmail"];
-    testMsg.bccEmail = [defaults objectForKey:@"bccEmal"];
-    testMsg.relayHost = [defaults objectForKey:@"relayHost"];
-    
-    testMsg.requiresAuth = [[defaults objectForKey:@"requiresAuth"] boolValue];
-    
-    if (testMsg.requiresAuth) {
-        testMsg.login = [defaults objectForKey:@"login"];
-        
-        testMsg.pass = [defaults objectForKey:@"pass"];
-        
-    }
-    
-    testMsg.wantsSecure = [[defaults objectForKey:@"wantsSecure"] boolValue]; // smtp.gmail.com doesn't work without TLS!
-  */  
-    
-    SKPSMTPMessage *testMsg = [[SKPSMTPMessage alloc] init];
-    testMsg.fromEmail = @"julianxiao@gmail.com";
-    
-    testMsg.toEmail = @"how28donut@photos.flickr.com";
+    testMsg.toEmail = [defaults objectForKey:@"emailTo_preference"];
     testMsg.bccEmail = nil;
-    testMsg.relayHost =  @"smtp.gmail.com";
-    
+    testMsg.relayHost = [defaults objectForKey:@"mailServer_preference"];
+    NSLog(@"server address %@", testMsg.relayHost);
+   
     testMsg.requiresAuth = YES;
     
     if (testMsg.requiresAuth) {
-        testMsg.login = @"julianxiao@gmail.com";
-        
-        testMsg.pass = @"njiang75";
-        
+        testMsg.login = [defaults objectForKey:@"username_preference"];
+        testMsg.pass = [defaults objectForKey:@"password_preference"];
     }
     
-    testMsg.wantsSecure = YES; // smtp.gmail.com doesn't work without TLS
+    testMsg.wantsSecure = [[defaults objectForKey:@"secure_preference"] boolValue]; // smtp.gmail.com doesn't work without TLS!
     testMsg.subject = @"Security camera capture";
-
-    // testMsg.validateSSLChain = NO;
     testMsg.delegate = self;
     
-    NSDateFormatter *format = [[NSDateFormatter alloc] init];
-    [format setDateFormat:@"MMM dd, yyyy "];
-    
-    NSDate *now = [[NSDate alloc] init];
-    
-    NSString *dateString = [format stringFromDate:now];
-     
-    [now release];
-    [format release];
-    
-    NSString *emailMessage = [NSString stringWithFormat:@"This is a  security camera catpure at %@%@", dateString, [fileName substringToIndex:8]];
+    NSString *emailMessage = [NSString stringWithFormat:@"This is a  security camera catpure at %@, %@", dateString, [fileName substringToIndex:8]];
 
-    
     NSDictionary *plainPart = [NSDictionary dictionaryWithObjectsAndKeys:@"text/plain",kSKPSMTPPartContentTypeKey,
                                emailMessage,kSKPSMTPPartMessageKey,@"8bit",kSKPSMTPPartContentTransferEncodingKey,nil];
     
@@ -165,7 +183,7 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     
     uploadCounter ++;
     [flManager removeItemAtPath: path error:NULL];
-} // handleTimer
+} 
 
 - (void)messageSent:(SKPSMTPMessage *)message
 {
@@ -175,7 +193,11 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
 
 - (void)messageFailed:(SKPSMTPMessage *)message error:(NSError *)error
 {
-    
+    NSString *text = [NSString stringWithFormat:@"Error in sending the email (%d): %@", [error code], [error localizedDescription]];
+    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Alert View" message:text delegate:nil
+                                           cancelButtonTitle:@"OK"
+                                           otherButtonTitles:nil];
+    [alert show];    
      NSLog(@"delegate - error(%d): %@", [error code], [error localizedDescription]);
 }
 
@@ -190,7 +212,11 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     cvReleaseMemStorage(&storage);
 }
 
+
+
+
 - (void)setupCaptureSession {
+        
     NSError *error = nil;
 	
     // Create the session
@@ -235,15 +261,22 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     // If you wish to cap the frame rate to a known value, such as 15 fps, set 
     // minFrameDuration.
  //   output.minFrameDuration = CMTimeMake(1, 15);
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [cameraPreview setHidden:true];
+    AVCaptureVideoPreviewLayer *previewLayer = [AVCaptureVideoPreviewLayer layerWithSession:newSession];
+    previewLayer.frame = cameraPreview.bounds; // Assume you want the preview layer to fill the view.
+    [cameraPreview.layer addSublayer:previewLayer];
+
+    if(![[defaults objectForKey:@"hide_preference"] boolValue])
+    {
+        [cameraPreview setHidden:false];
+    }
 	
-	AVCaptureVideoPreviewLayer *previewLayer = [AVCaptureVideoPreviewLayer layerWithSession:newSession];
-	previewLayer.frame = cameraPreview.bounds; // Assume you want the preview layer to fill the view.
-	[cameraPreview.layer addSublayer:previewLayer];
+    motionStart = false;
 	
     // Start the session running to start the flow of data
     [newSession startRunning];
-
-//    [previewLayer release];
     
     // Assign session to an ivar.
     [self setSession:newSession];
@@ -253,12 +286,26 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
 - (void)captureOutput:(AVCaptureOutput *)captureOutput 
 didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer 
 	   fromConnection:(AVCaptureConnection *)connection { 
-	//return;
-    // Create a UIImage from the sample buffer data
+	NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
+
     UIImage *uiImage = [self imageFromSampleBuffer:sampleBuffer];
 	if (!uiImage) {
 		return;
 	}
+    
+    if(!captureFlag)return;
+    
+    if(motionStart)
+    {
+//        NSLog(@"motion started:\n");
+        float t = 2*((double)cv::getTickCount() - tlog) / cv::getTickFrequency();
+        if (t>1)
+        {
+            tlog = cv::getTickCount();
+            [self saveToFile:uiImage];
+            motionStart = false;
+        } 
+    }
     
 	IplImage *image = [self CreateIplImageFromUIImage:uiImage];
 	
@@ -286,7 +333,6 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
 
     cvReleaseImage(&portraitImage);
 
-
     if (firstFlag)
     {
         difference = cvCloneImage(colourImage);
@@ -306,7 +352,7 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     
     cvCvtColor(difference,greyImage,CV_RGB2GRAY);
     
-    cvThreshold(greyImage, greyImage, 150, 255, CV_THRESH_BINARY);
+    cvThreshold(greyImage, greyImage, 120, 255, CV_THRESH_BINARY);
     
     cvDilate(greyImage, greyImage, 0, 18);
     cvErode(greyImage, greyImage, 0, 10);
@@ -315,131 +361,37 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     CvSeq* contour = 0;
     cvFindContours( greyImage, storage, &contour, sizeof(CvContour), CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE );
     
-/*    CvRect bndRect = cvRect(0,0,0,0);
-    CvPoint pt1, pt2;
-    int avgX = 0; */
     int Disturbances = 0;
-    bool enter =0;
-
-    
+     
     for( ; contour != 0; contour = contour->h_next )
     {
-        enter=1;
- /*       bndRect = cvBoundingRect(contour, 0);
-        pt1.x = bndRect.x;
-        pt1.y = bndRect.y;
-        pt2.x = bndRect.x + bndRect.width;
-        pt2.y = bndRect.y + bndRect.height;
-        avgX = (pt1.x + pt2.x) / 2;
-        
-        CvPoint avg;
-        avg.x = (pt1.x+pt2.x)/2;
-        avg.y = (pt1.y+pt2.y)/2;
-  //      cvRectangle(colourImage, pt1, pt2, CV_RGB(255,0,0), 0.5);
-        //mTempImage =  cvCloneImage(colourImage);
-  //      cvCvtColor(colourImage,mTempImage,CV_RGB2GRAY);
-        
-        //      colourImage = mTempImage;
-        //      cvCircle(colourImage, avg, 5, CV_RGB(255,0,205), 2, 1, 1); */
         Disturbances++;
-        
     }
+    
     if(Disturbances > 0)
     {
-        NSLog(@"motion detected: %d\n", Disturbances);
-        float t = 2*((double)cv::getTickCount() - tlog) / cv::getTickFrequency();
-        if (t>1)
+ //       NSLog(@"motion detected: %d\n", Disturbances);
+//        [self performSelector:@selector(delayedCapture) withObject:nil afterDelay:1];    
+        if(!motionStart)
         {
-        
-            tlog = cv::getTickCount();
- //           UIImage* colorRectView = [self UIImageFromIplImage:colourImage];
-
-            [self saveToFile:uiImage];
-        }
+            tlog = (double)cv::getTickCount();
+            motionStart = true;
+        }    
     }
-    
-/*	NSArray* subviews = [diffView subviews];
-	for (UIView* subview in subviews) {
-		[subview performSelectorOnMainThread:@selector(removeFromSuperview)
-								  withObject:nil waitUntilDone:YES];
-	}
-
-    cvCvtColor( greyImage, mTempImage, CV_GRAY2BGR );
-
-    UIImage* faceRectView = [self UIImageFromIplImage:mTempImage];
-    UIImageView *overlayImageView = [[UIImageView alloc] initWithImage:faceRectView];
-
-    [overlayImageView setFrame:CGRectMake(0, 0, 150, 150)];
-    [diffView performSelectorOnMainThread:@selector(addSubview:) withObject:overlayImageView waitUntilDone:YES];
-    [overlayImageView release];
-    [faceRectView release]; 
-		
-	subviews = [colorView subviews];
-	for (UIView* subview in subviews) {
-		[subview performSelectorOnMainThread:@selector(removeFromSuperview)
-								  withObject:nil waitUntilDone:YES];
-	}
-    
-    
-    UIImage* colorRectView = [self UIImageFromIplImage:colourImage];
-    UIImageView *overlaycolorImageView = [[UIImageView alloc] initWithImage:colorRectView];
-    
-    [overlaycolorImageView setFrame:CGRectMake(0, 0, 150, 150)];
-    [colorView performSelectorOnMainThread:@selector(addSubview:) withObject:overlaycolorImageView waitUntilDone:YES];
-    [overlaycolorImageView release];
-    [colorRectView release]; 
-*/
     
     cvReleaseImage(&temp);
     cvReleaseImage(&difference);
     cvReleaseImage(&greyImage);
     cvReleaseImage(&colourImage);
     cvReleaseImage(&mTempImage);
- //   [uiImage release];         
+    
+	[pool drain];
+}
 
-	// Detect faces
-/*    cvClearMemStorage(storage);
-	CvSeq* faces = cvHaarDetectObjects(portraitImage, cascade, storage, 1.2f, 2,
-									   CV_HAAR_FIND_BIGGEST_OBJECT | CV_HAAR_DO_ROUGH_SEARCH,
-									   cvSize(30, 30));
-	cvReleaseImage(&portraitImage);
-	NSLog(@"found %d faces in image", faces->total);
-	
-	UIColor* legoControlColor = [UIColor grayColor];
-	
-	NSArray* subviews = [faceRectsView subviews];
-	for (UIView* subview in subviews) {
-		[subview performSelectorOnMainThread:@selector(removeFromSuperview)
-								  withObject:nil waitUntilDone:YES];
-	}
-	CGRect containerFrame = cameraPreview.frame;
-	float containerScale = 320.0 / containerFrame.size.width;
-	NSLog(@"container: %@, scale: %.2f", NSStringFromCGRect(containerFrame), containerScale);
-	for (int i = 0; i < faces->total; i++) {
-		CvRect cvrect = *(CvRect*)cvGetSeqElem(faces, i);
-		NSLog(@"cvrect: {{%d,%d},{%d,%d}}", cvrect.x, cvrect.y, cvrect.width, cvrect.height);
-		CGRect faceRect = CGRectMake(cvrect.x * containerScale, cvrect.y * containerScale,
-									 cvrect.width * containerScale, cvrect.height * containerScale);
-		NSLog(@"faceRect: %@", NSStringFromCGRect(faceRect));
-		UIView* faceRectView = [[UIView alloc] initWithFrame:faceRect];
-		[faceRectView setOpaque:NO];
-		[faceRectView setAlpha:0.4];
-		[faceRectView setBackgroundColor:[UIColor whiteColor]];
-		[[faceRectView layer] setBorderColor:[[UIColor redColor] CGColor]];
-		[[faceRectView layer] setBorderWidth:1.0f];
-		[faceRectsView performSelectorOnMainThread:@selector(addSubview:) withObject:faceRectView waitUntilDone:YES];
-		[faceRectView release]; 
-		
-		if (i == 0) {
-			CGFloat faceXPos = faceRect.origin.x + faceRect.size.width / 2;
-			CGFloat whiteValue = faceXPos / containerFrame.size.width;
-			legoControlColor = [UIColor colorWithWhite:whiteValue alpha:1.0];
-		}
-	}
-	[legoControlView performSelectorOnMainThread:@selector(setBackgroundColor:)
-									  withObject:legoControlColor waitUntilDone:YES]; */
-	
-    //	[openCvView performSelectorOnMainThread:@selector(setImage:) withObject:uiImage waitUntilDone:YES];
+- (void) delayedCapture
+{
+    motionStart = true;
+    NSLog(@"motion started:\n");
 }
 
 - (void) saveToFile:(UIImage *)image{
@@ -466,8 +418,24 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
 
         [data writeToFile:path atomically:YES];
         fileCounter ++;
+        NSLog(@"save file number: %d", fileCounter);
     }
 }
+
+- (void) saveViewToFile:(UIView *)someView{
+    UIGraphicsBeginImageContext(someView.bounds.size);
+    [someView.layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *viewImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    [self saveToFile:viewImage];
+}
+
+// Create a UIImage from sample buffer data
+- (void) saveImageFromSampleBuffer:(CMSampleBufferRef) sampleBuffer {
+    UIImage *image = [self imageFromSampleBuffer:sampleBuffer];
+    [self saveToFile:image];
+}
+
 
 // Create a UIImage from sample buffer data
 - (UIImage *) imageFromSampleBuffer:(CMSampleBufferRef) sampleBuffer {

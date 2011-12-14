@@ -15,12 +15,14 @@
 #import <CFNetwork/CFNetwork.h>
 
 #import "SKPSMTPMessage.h"
+#import "IASKAppSettingsViewController.h"
 
-@interface ViewController :  UIViewController <AVCaptureVideoDataOutputSampleBufferDelegate,  SKPSMTPMessageDelegate> {
-	IBOutlet UIImageView* openCvView;
-	IBOutlet UIView* cameraPreview;
-	IBOutlet UIView* diffView;
-	IBOutlet UIView* colorView;
+@interface ViewController :  UIViewController <AVCaptureVideoDataOutputSampleBufferDelegate,  IASKSettingsDelegate, SKPSMTPMessageDelegate> {
+
+    IASKAppSettingsViewController *appSettingsViewController;
+	
+    IBOutlet UIView* cameraPreview;
+    IBOutlet UIButton* startCameraPreview;
 	
 	AVCaptureSession* session;
 //	CvHaarClassifierCascade* cascade;
@@ -28,11 +30,18 @@
 //    IplImage* temp;
 	CvMemStorage* storage;
     bool firstFlag;
+    bool captureFlag;
     int fileCounter;
     int uploadCounter;
     double tlog;
     NSTimer * timer;
     
+    bool motionStart;
+    
 //    NSString *documentsDirectory;
 }
+- (IBAction)showSettingsPush:(id)sender;
+
+@property (nonatomic, retain) IASKAppSettingsViewController *appSettingsViewController;
+
 @end

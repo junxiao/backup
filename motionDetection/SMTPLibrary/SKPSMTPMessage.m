@@ -246,10 +246,10 @@ NSString *kSKPSMTPPartContentTransferEncodingKey = @"kSKPSMTPPartContentTransfer
     NSAssert(parts, @"send requires parts");
     
     NSError *error = nil;
-/*    if (![self preflightCheckWithError:&error]) {
+    if (![self preflightCheckWithError:&error]) {
         [delegate messageFailed:self error:error];
         return NO;
-    } */
+    } 
     
     if (![relayPorts count])
     {
