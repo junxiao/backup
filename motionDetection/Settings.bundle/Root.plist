@@ -16,7 +16,7 @@
 			<key>AutocorrectionType</key>
 			<string>No</string>
 			<key>DefaultValue</key>
-			<string>julianxiao@gmail.com</string>
+			<string>your.address@gmail.com</string>
 			<key>IsSecure</key>
 			<false/>
 			<key>Key</key>
@@ -53,7 +53,7 @@
 			<key>AutocorrectionType</key>
 			<string>No</string>
 			<key>DefaultValue</key>
-			<string>julianxiao@gmail.com</string>
+			<string>your.address@gmail.com</string>
 			<key>IsSecure</key>
 			<false/>
 			<key>Key</key>
@@ -61,7 +61,7 @@
 			<key>KeyboardType</key>
 			<string>Alphabet</string>
 			<key>Title</key>
-			<string>Username</string>
+			<string>Login</string>
 			<key>Type</key>
 			<string>PSTextFieldSpecifier</string>
 			<key>New item</key>
@@ -174,7 +174,7 @@
 			<key>AutocorrectionType</key>
 			<string>No</string>
 			<key>DefaultValue</key>
-			<string>how28donut@photos.flickr.com</string>
+			<string>your.email@photos.flickr.com</string>
 			<key>IsSecure</key>
 			<false/>
 			<key>Key</key>
@@ -217,7 +217,7 @@
 			<key>AutocorrectionType</key>
 			<string>No</string>
 			<key>DefaultValue</key>
-			<string>9</string>
+			<string>8</string>
 			<key>IsSecure</key>
 			<false/>
 			<key>Key</key>
@@ -254,7 +254,7 @@
 			<key>AutocorrectionType</key>
 			<string>No</string>
 			<key>DefaultValue</key>
-			<string>17</string>
+			<string>18</string>
 			<key>IsSecure</key>
 			<false/>
 			<key>Key</key>
@@ -287,43 +287,47 @@
 		</dict>
 		<dict>
 			<key>Title</key>
-			<string>Camera Settings</string>
+			<string>Screen Settings</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 		</dict>
 		<dict>
 			<key>DefaultValue</key>
-			<true/>
+			<false/>
 			<key>Key</key>
 			<string>hide_preference</string>
 			<key>Title</key>
-			<string>Hide camera</string>
+			<string>Hide camera view</string>
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 		</dict>
 		<dict>
 			<key>Type</key>
-			<string>PSTitleValueSpecifier</string>
+			<string>PSToggleSwitchSpecifier</string>
 			<key>Title</key>
-			<string>Response time</string>
+			<string>Show ads</string>
 			<key>Key</key>
-			<string>lable</string>
+			<string>ads_preference</string>
+			<key>DefaultValue</key>
+			<true/>
 		</dict>
 		<dict>
-			<key>DefaultValue</key>
-			<integer>8</integer>
-			<key>Key</key>
-			<string>startTime_preference</string>
-			<key>MaximumValue</key>
-			<integer>24</integer>
-			<key>MaximumValueImage</key>
-			<string></string>
-			<key>MinimumValue</key>
-			<integer>0</integer>
-			<key>MinimumValueImage</key>
-			<string></string>
+			<key>Title</key>
+			<string>Sensitivity Settings</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
 			<key>Type</key>
 			<string>PSSliderSpecifier</string>
+			<key>Key</key>
+			<string>sensibility_preference</string>
+			<key>DefaultValue</key>
+			<integer>15</integer>
+			<key>MinimumValue</key>
+			<integer>1</integer>
+			<key>MaximumValue</key>
+			<integer>20</integer>
 		</dict>
 	</array>
 	<key>StringsTable</key>

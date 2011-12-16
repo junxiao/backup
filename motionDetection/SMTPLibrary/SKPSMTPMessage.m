@@ -145,19 +145,19 @@ NSString *kSKPSMTPPartContentTransferEncodingKey = @"kSKPSMTPPartContentTransfer
 
 - (void)startShortWatchdog
 {
-    NSLog(@"*** starting short watchdog ***");
+ //   NSLog(@"*** starting short watchdog ***");
     self.watchdogTimer = [NSTimer scheduledTimerWithTimeInterval:SHORT_LIVENESS_TIMEOUT target:self selector:@selector(connectionWatchdog:) userInfo:nil repeats:NO];
 }
 
 - (void)startLongWatchdog
 {
-    NSLog(@"*** starting long watchdog ***");
+ //   NSLog(@"*** starting long watchdog ***");
     self.watchdogTimer = [NSTimer scheduledTimerWithTimeInterval:LONG_LIVENESS_TIMEOUT target:self selector:@selector(connectionWatchdog:) userInfo:nil repeats:NO];
 }
 
 - (void)stopWatchdog
 {
-    NSLog(@"*** stopping watchdog ***");
+//    NSLog(@"*** stopping watchdog ***");
     [self.watchdogTimer invalidate];
     self.watchdogTimer = nil;
 }
@@ -188,7 +188,7 @@ NSString *kSKPSMTPPartContentTransferEncodingKey = @"kSKPSMTPPartContentTransfer
 #pragma mark Connection Handling
 
 - (BOOL)preflightCheckWithError:(NSError **)error {
-//    NSLog(@"C: Attempting to connect to server at: %@", self.relayHost);    
+    NSLog(@"C: Attempting to connect to server at: %@", self.relayHost);    
     CFHostRef host = CFHostCreateWithName(kCFAllocatorDefault, (CFStringRef)self.relayHost);
     CFStreamError streamError;
     

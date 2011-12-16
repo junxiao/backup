@@ -1,0 +1,260 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1138\cocoasubrtf230
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fmodern\fcharset0 Courier;\f2\fnil\fcharset0 LucidaGrande;
+\f3\fmodern\fcharset0 CourierNewPSMT;\f4\fnil\fcharset0 Georgia;\f5\fnil\fcharset0 Verdana;
+}
+{\colortbl;\red255\green255\blue255;\red229\green239\blue243;\red38\green38\blue38;\red218\green230\blue240;
+\red246\green246\blue246;\red147\green131\blue121;\red19\green112\blue0;\red255\green255\blue185;\red98\green226\blue66;
+\red159\green159\blue159;}
+\margl1440\margr1440\vieww21260\viewh12160\viewkind0
+\deftab720
+\pard\pardeftab720
+
+\f0\b\fs40 \cf0 \cb2 http://www.weston-fl.com/blog/?p=2442\
+\
+Next steps:\
+\pard\pardeftab720
+
+\f1\b0\fs26 \cf0   \
+git add .\
+git commit -m 'Face detection with openCV'\
+ git remote add personal git@github.com:junxiao/backup.git\
+ git push -u personal master\
+\
+\
+mkdir backup\
+  cd backup\
+git config --global user.name "Jun Xiao"\
+git config --global user.email jun_xiao@hotmail.com\
+git init\
+  touch README\
+  git add README\
+  git commit -m 'first commit'\
+  git remote add personal git@github.com:junxiao/backup.git\
+  git push -u personal master\
+      \
+\pard\pardeftab720
+
+\f0\b\fs40 \cf0 Existing Git Repo?\
+\pard\pardeftab720
+
+\f1\b0\fs26 \cf0   cd existing_git_repo\
+  git remote add personal git@github.com:junxiao/backup.git\
+  git push -u origin master\
+\
+\
+\
+\pard\pardeftab720
+
+\f2 \cf3 \cb4 DiffImage = cvlib.CvCreateImage(new CvSize(image.width, image.height), (int)cvlib.IPL_DEPTH_8U, 3);\
+\
+cvlib.CvAbsDiff(ref image, ref LastImage, ref DiffImage);\
+gray_scale(DiffImage);\
+cvlib.CvThreshold(ref DiffImage, ref DiffImage, 70, 255, cvlib.CV_THRESH_BINARY);\
+\
+\
+// create mask\
+int[] arr = new int[9] \{ 1, 1, 1, 1, 0, 1, 1, 1, 1 \};\
+// create kernel\
+IplConvKernel k = cvlib.CvCreateStructuringElementEx(3, 3, 1, 1, cvlib.CV_SHAPE_CUSTOM, arr);\
+cvlib.CvErode(ref DiffImage, ref DiffImage, ref k, 1);\
+cvlib.CvDilate(ref DiffImage, ref DiffImage, ref k, 1);\
+\
+//cvlib.CvThreshold(ref DiffImage, ref DiffImage,100, 255, cvlib.CV_THRESH_BINARY);\
+\
+\
+----------\
+\
+\pard\pardeftab720
+
+\f3\fs24 \cf0 \cb5 \'a0\cb1 \'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0repeatingTimer = [NSTimer scheduledTimerWithTimeInterval:0.0909 target:self selector:@selector(doDetection:) userInfo:nil repeats:YES];\cf6 \
+\cf0 \}\cf6 \
+\'a0\
+\cf0 -(void)doDetection:(NSTimer*) timer \{\cb5 \
+\pard\pardeftab720
+
+\f2\fs26 \cf3 \cb4 \
+\pard\pardeftab720
+
+\f1\fs28 \cf7 \cb8 IplImage* greyImage     = cvCreateImage( imgSize, IPL_DEPTH_8U, 1);\
+IplImage* colourImage   = cvCreateImage( imgSize, IPL_DEPTH_8U,3);\
+IplImage* movingAverage = cvCreateImage( imgSize, IPL_DEPTH_32F, 3);\
+IplImage* difference    = cvCreateImage( imgSize, IPL_DEPTH_8U, 3);\
+IplImage* temp          = cvCreateImage( imgSize, IPL_DEPTH_8U, 3);\
+// Create a window\
+cvNamedWindow( "Image", 1 ); // creation of a visualisation window\
+cvNamedWindow( "BG", 1 ); // creation of a visualisation window\
+cvNamedWindow( "Source", 1 ); // creation of a visualisation wind\
+\
+int key=-1;\
+int flag=0;\
+while(key != 'q')\
+  \{\
+    // Take a picture\
+    phil.grabImage();\
+\
+    // Copy from the camera buffer to the OpenCV image buffer\
+    cvSetImageData(greyImage,  phil.getGreyPointer(),imgSize.width*1);\
+    cvSetImageData(colourImage,phil.getColourPointer(),imgSize.width*3);\
+\
+    if (flag==0)\
+    \{\
+        cvConvertScale(colourImage,movingAverage,1.0,0.0);\
+        flag=1;\
+    \}\
+    else\
+    \{\
+        cvRunningAvg( colourImage, movingAverage, 0.015 ,NULL);\
+    \}\
+\
+    cvConvertScale(movingAverage,temp,1.0,0.0);\
+    cvShowImage("BG",temp);\
+    cvAbsDiff(colourImage,temp,difference);\
+    cvThreshold(difference,difference,50,255,CV_THRESH_BINARY);\
+    cvCvtColor( difference,greyImage, CV_BGR2GRAY );\
+\
+    // Display the image\
+    cvShowImage("Source",colourImage);\
+    cvShowImage("Image",greyImage);\
+\
+    // Capture a key press, but more importantly allow the\
+    // window to refresh\
+    key = cvWaitKey(1);  \
+  \}    \
+\pard\pardeftab720
+
+\f4\fs26 \cf3 \cb1 \
+\pard\pardeftab720
+
+\f3\fs24 \cf0 \cb5 IplImage*\'a0movingAverage\'a0=\'a0cvCreateImage(\'a0imgSize,\'a0IPL_DEPTH_32F,\'a03);\'a0\'a0\'a0\
+\pard\pardeftab720
+
+\f4\fs26 \cf3 \cb1 if(first)\
+\{\
+difference = cvCloneImage(colourImage);\
+temp = cvCloneImage(colourImage);\
+cvConvertScale(colourImage, movingAverage, 1.0, 0.0);\
+first = false;\
+\}\
+//else, make a running average of the motion.\
+else\
+\{\
+cvRunningAvg(colourImage, movingAverage, 0.020, NULL);\
+\}\
+\
+//Convert the scale of the moving average.\
+cvConvertScale(movingAverage,temp, 1.0, 0.0);\
+\
+//Minus the current frame from the moving average.\
+cvAbsDiff(colourImage,temp,difference);\
+\
+//Convert the image to grayscale.\
+cvCvtColor(difference,greyImage,CV_RGB2GRAY);\
+\
+//Convert the image to black and white.\
+cvThreshold(greyImage, greyImage, 70, 255, CV_THRESH_BINARY);\
+\
+cvDilate(greyImage, greyImage, 0, 18);\
+cvErode(greyImage, greyImage, 0, 10);\
+\
+\pard\pardeftab720
+
+\f5 \cf0 for( ; contour != 0; contour = contour->h_next ) \
+\{ \
+//Get a bounding rectangle around the moving object. \
+bndRect = cvBoundingRect(contour, 0); \
+\
+pt1.x = bndRect.x; \
+pt1.y = bndRect.y; \
+pt2.x = bndRect.x + bndRect.width; \
+pt2.y = bndRect.y + bndRect.height; \
+\
+//Get an average X position of the moving contour. \
+avgX = (pt1.x + pt2.x) / 2; \
+\
+//If the contour is within the edges of the building... \
+if(avgX > 90 && avgX < 250) \
+\{ \
+//If the the previous contour was within 2 of the left boundary... \
+if(closestToLeft >= 88 && closestToLeft <= 90) \
+\{ \
+//If the current X position is greater than the previous... \
+if(avgX > prevX) \
+\{ \
+//Increase the number of people. \
+numPeople++; \
+\
+//Reset the closest object to the left indicator. \
+closestToLeft = 0; \
+\} \
+\} \
+//else if the previous contour was within 2 of the right boundary... \
+else if(closestToRight >= 250 && closestToRight <= 252) \
+\{ \
+//If the current X position is less than the previous... \
+if(avgX < prevX) \
+\{ \
+//Increase the number of people. \
+numPeople++; \
+\
+//Reset the closest object to the right counter. \
+closestToRight = 320; \
+\} \
+\} \
+\
+//Draw the bounding rectangle around the moving object. \
+cvRectangle(colourImage, pt1, pt2, CV_RGB(255,0,0), 1); \
+\} \
+\
+//If the current object is closer to the left boundary but still not across \
+//it, then change the closest to the left counter to this value. \
+if(avgX > closestToLeft && avgX <= 90) \
+\{ \
+closestToLeft = avgX; \
+\} \
+\
+//If the current object is closer to the right boundary but still not across \
+//it, then change the closest to the right counter to this value. \
+if(avgX < closestToRight && avgX >= 250) \
+\{ \
+closestToRight = avgX; \
+\} \
+\
+//Save the current X value to use as the previous in the next iteration. \
+prevX = avgX; \
+\} \
+\pard\pardeftab720
+
+\f4 \cf3 \
+-----\
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrt\brdrnil \trbrdrl\brdrnil \trbrdrt\brdrnil \trbrdrr\brdrnil 
+\clvertalt \clshdrawnil \clwWidth14940\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrs\brdrw60\brdrcf9 \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadl120 \clpadr0 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720
+
+\f3\fs24 \cf0 - (UIImage *)addImage:(UIImage *)image1 toImage:(UIImage *)image2 \{\
+	UIGraphicsBeginImageContext(image1.size);\
+\
+	// Draw image1\
+	[image1 drawInRect:CGRectMake(0, 0, image1.size.width, image1.size.height)];\
+\
+	// Draw image2\
+	[image2 drawInRect:CGRectMake(0, 0, image2.size.width, image2.size.height)];\
+\
+	UIImage *resultingImage = UIGraphicsGetImageFromCurrentImageContext();\
+\
+	UIGraphicsEndImageContext();\
+\
+	return resultingImage;\
+\}\cf10 \cell \lastrow\row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrt\brdrnil \trbrdrl\brdrnil \trbrdrt\brdrnil \trbrdrr\brdrnil 
+\clvertalt \clshdrawnil \clwWidth140\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrs\brdrw60\brdrcf9 \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadl120 \clpadr0 \gaph\cellx4320
+\clvertalt \clshdrawnil \clwWidth140\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrs\brdrw60\brdrcf9 \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadl120 \clpadr0 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720
+\cf10 \cell 
+\pard\intbl\itap1\pardeftab720
+\cf0 \
+\
+\
+\cell \lastrow\row
+}

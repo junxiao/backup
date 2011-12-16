@@ -51,8 +51,12 @@
 		3725A5F91496544600F95087 /* NSData+Base64Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3725A5F21496544600F95087 /* NSData+Base64Additions.m */; };
 		3725A5FA1496544600F95087 /* NSStream+SKPSMTPExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3725A5F41496544600F95087 /* NSStream+SKPSMTPExtensions.m */; };
 		3725A5FB1496544600F95087 /* SKPSMTPMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 3725A5F61496544600F95087 /* SKPSMTPMessage.m */; };
+		3739DE89149A9628003BE463 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 3739DE88149A9628003BE463 /* Icon-72.png */; };
 		37436A7E1498029700A51887 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 37436A7D1498029700A51887 /* Settings.bundle */; };
 		377F5AB31496847800EAB3D5 /* UIImage+OpenCV.mm in Sources */ = {isa = PBXBuildFile; fileRef = 377F5AB21496847800EAB3D5 /* UIImage+OpenCV.mm */; };
+		37DB84C714994F9400C6B438 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 37DB84C614994F9400C6B438 /* Icon@2x.png */; };
+		37DB84CA1499506100C6B438 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 37DB84C91499506100C6B438 /* Icon.png */; };
+		37DB84CC1499589A00C6B438 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37DB84CB1499589A00C6B438 /* iAd.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -125,9 +129,13 @@
 		3725A5F41496544600F95087 /* NSStream+SKPSMTPExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSStream+SKPSMTPExtensions.m"; sourceTree = "<group>"; };
 		3725A5F51496544600F95087 /* SKPSMTPMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKPSMTPMessage.h; sourceTree = "<group>"; };
 		3725A5F61496544600F95087 /* SKPSMTPMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKPSMTPMessage.m; sourceTree = "<group>"; };
+		3739DE88149A9628003BE463 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
 		37436A7D1498029700A51887 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		377F5AB11496847800EAB3D5 /* UIImage+OpenCV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+OpenCV.h"; sourceTree = "<group>"; };
 		377F5AB21496847800EAB3D5 /* UIImage+OpenCV.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "UIImage+OpenCV.mm"; sourceTree = "<group>"; };
+		37DB84C614994F9400C6B438 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
+		37DB84C91499506100C6B438 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		37DB84CB1499589A00C6B438 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,6 +143,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37DB84CC1499589A00C6B438 /* iAd.framework in Frameworks */,
 				3718FA8214993DB000ACFEAB /* MessageUI.framework in Frameworks */,
 				37212BAC148ECBF300317364 /* CFNetwork.framework in Frameworks */,
 				371BCE43149004FA00BCE10E /* CoreMedia.framework in Frameworks */,
@@ -251,6 +260,7 @@
 		37212B5E148EC32100317364 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				37DB84CB1499589A00C6B438 /* iAd.framework */,
 				3718FA8114993DB000ACFEAB /* MessageUI.framework */,
 				371BCE42149004FA00BCE10E /* CoreMedia.framework */,
 				371BCE40149004A900BCE10E /* CoreVideo.framework */,
@@ -286,6 +296,9 @@
 		37212B66148EC32100317364 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				3739DE88149A9628003BE463 /* Icon-72.png */,
+				37DB84C91499506100C6B438 /* Icon.png */,
+				37DB84C614994F9400C6B438 /* Icon@2x.png */,
 				37212B67148EC32100317364 /* iSecureCam-Info.plist */,
 				37212B68148EC32100317364 /* InfoPlist.strings */,
 				37212B6B148EC32100317364 /* main.m */,
@@ -371,6 +384,9 @@
 				3718FA7D14993C5F00ACFEAB /* IASKPSTextFieldSpecifierViewCell.xib in Resources */,
 				3718FA7E14993C5F00ACFEAB /* IASKPSToggleSwitchSpecifierViewCell.xib in Resources */,
 				3718FA7F14993C5F00ACFEAB /* IASKSpecifierValuesView.xib in Resources */,
+				37DB84C714994F9400C6B438 /* Icon@2x.png in Resources */,
+				37DB84CA1499506100C6B438 /* Icon.png in Resources */,
+				3739DE89149A9628003BE463 /* Icon-72.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -501,6 +517,7 @@
 		37212B7E148EC32100317364 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -509,6 +526,7 @@
 				GCC_PREFIX_HEADER = "iSecureCam/iSecureCam-Prefix.pch";
 				INFOPLIST_FILE = "iSecureCam/iSecureCam-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

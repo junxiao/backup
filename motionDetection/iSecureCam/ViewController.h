@@ -16,13 +16,15 @@
 
 #import "SKPSMTPMessage.h"
 #import "IASKAppSettingsViewController.h"
+#import "iAd/ADBannerView.h"
 
-@interface ViewController :  UIViewController <AVCaptureVideoDataOutputSampleBufferDelegate,  IASKSettingsDelegate, SKPSMTPMessageDelegate> {
+@interface ViewController :  UIViewController <AVCaptureVideoDataOutputSampleBufferDelegate,  IASKSettingsDelegate, ADBannerViewDelegate, SKPSMTPMessageDelegate> {
 
     IASKAppSettingsViewController *appSettingsViewController;
 	
     IBOutlet UIView* cameraPreview;
     IBOutlet UIButton* startCameraPreview;
+    IBOutlet UILabel* motionLabel;
 	
 	AVCaptureSession* session;
 //	CvHaarClassifierCascade* cascade;
@@ -37,11 +39,17 @@
     NSTimer * timer;
     
     bool motionStart;
+    int sensibilityValue;
+    bool showAds;
+    bool hideCameraView;
+    
+    ADBannerView *adView;
+    BOOL bannerIsVisible;
     
 //    NSString *documentsDirectory;
 }
 - (IBAction)showSettingsPush:(id)sender;
 
 @property (nonatomic, retain) IASKAppSettingsViewController *appSettingsViewController;
-
+@property (nonatomic,assign) BOOL bannerIsVisible;
 @end

@@ -25,6 +25,7 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
 - (void) saveViewToFile:(UIView *)someView;
 - (void) saveImageFromSampleBuffer:(CMSampleBufferRef) sampleBuffer;
 - (void) delayedCapture;
+- (void) setDetectionLabel;
 
 @property (nonatomic,retain) AVCaptureSession* session;
 @property (nonatomic, retain) NSTimer * timer;
@@ -35,6 +36,7 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
 @synthesize session;
 @synthesize timer;
 @synthesize appSettingsViewController;
+@synthesize bannerIsVisible;
 
 - (void)didReceiveMemoryWarning
 {
@@ -54,14 +56,7 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
 	cvSetErrMode(CV_ErrModeParent);
     
     firstFlag =true;
-    captureFlag = false;
-
-    timer = [NSTimer scheduledTimerWithTimeInterval: 30
-                                             target: self
-                                           selector: @selector(handleTimer:)
-                                           userInfo: nil
-                                            repeats: YES];
-    
+    captureFlag = false;    
     uploadCounter = 0;
 
     [UIApplication sharedApplication].idleTimerDisabled = NO;
@@ -91,11 +86,31 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     
     if (![[NSUserDefaults standardUserDefaults] synchronize])
         NSLog(@"not successful in writing the default prefs");
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    sensibilityValue = 21 - [[defaults objectForKey:@"sensibility_preference"] intValue];
+    
+    showAds= [[defaults objectForKey:@"ads_preference"] boolValue];
+    hideCameraView = [[defaults objectForKey:@"hide_preference"] boolValue];
+    adView = [[ADBannerView alloc] initWithFrame:CGRectZero];
+    adView.frame = CGRectOffset(adView.frame, 0, -50);
+    adView.requiredContentSizeIdentifiers = [NSSet setWithObject:ADBannerContentSizeIdentifierPortrait];
+    adView.currentContentSizeIdentifier = ADBannerContentSizeIdentifierPortrait;
+    [self.view addSubview:adView];
+    adView.delegate=self;
+    self.bannerIsVisible=NO;
+
  }
 
 #pragma mark IASKAppSettingsViewControllerDelegate protocol
 - (void)settingsViewControllerDidEnd:(IASKAppSettingsViewController*)sender {
     [self dismissModalViewControllerAnimated:YES];
+    timer = [NSTimer scheduledTimerWithTimeInterval: 30
+                                             target: self
+                                           selector: @selector(handleTimer:)
+                                           userInfo: nil
+                                            repeats: YES];
+
     [self setupCaptureSession];    
 }
 
@@ -166,10 +181,10 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     }
     
     testMsg.wantsSecure = [[defaults objectForKey:@"secure_preference"] boolValue]; // smtp.gmail.com doesn't work without TLS!
-    testMsg.subject = @"Security camera capture";
+    testMsg.subject = @"image capture by iSecureCam ";
     testMsg.delegate = self;
     
-    NSString *emailMessage = [NSString stringWithFormat:@"This is a  security camera catpure at %@, %@", dateString, [fileName substringToIndex:8]];
+    NSString *emailMessage = [NSString stringWithFormat:@"Motion detected by iSecureCam at %@, %@", dateString, [fileName substringToIndex:8]];
 
     NSDictionary *plainPart = [NSDictionary dictionaryWithObjectsAndKeys:@"text/plain",kSKPSMTPPartContentTypeKey,
                                emailMessage,kSKPSMTPPartMessageKey,@"8bit",kSKPSMTPPartContentTransferEncodingKey,nil];
@@ -210,8 +225,34 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     cvReleaseImage(&movingAverage);
 
     cvReleaseMemStorage(&storage);
+    
+    [adView release];
 }
 
+- (void)bannerViewDidLoadAd:(ADBannerView *)banner
+{
+    if(!showAds) return;
+    if (!self.bannerIsVisible)
+    {
+        [UIView beginAnimations:@"animateAdBannerOn" context:NULL];
+        // banner is invisible now and moved out of the screen on 50 px
+        banner.frame = CGRectOffset(banner.frame, 0, 50);
+        [UIView commitAnimations];
+        self.bannerIsVisible = YES;
+    }
+}
+
+- (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
+{
+    if (self.bannerIsVisible)
+    {
+        [UIView beginAnimations:@"animateAdBannerOff" context:NULL];
+        // banner is visible and we move it out of the screen, due to connection issue
+        banner.frame = CGRectOffset(banner.frame, 0, -50);
+        [UIView commitAnimations];
+        self.bannerIsVisible = NO;
+    }
+}
 
 
 
@@ -262,13 +303,13 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     // minFrameDuration.
  //   output.minFrameDuration = CMTimeMake(1, 15);
     
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [cameraPreview setHidden:true];
+    
     AVCaptureVideoPreviewLayer *previewLayer = [AVCaptureVideoPreviewLayer layerWithSession:newSession];
     previewLayer.frame = cameraPreview.bounds; // Assume you want the preview layer to fill the view.
     [cameraPreview.layer addSublayer:previewLayer];
 
-    if(![[defaults objectForKey:@"hide_preference"] boolValue])
+    if(!hideCameraView)
     {
         [cameraPreview setHidden:false];
     }
@@ -336,7 +377,7 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     if (firstFlag)
     {
         difference = cvCloneImage(colourImage);
-        movingAverage = cvCreateImage( imgSize, IPL_DEPTH_32F, 3);
+        movingAverage = cvCreateImage(imgSize, IPL_DEPTH_32F, 3);
         cvConvertScale(colourImage, movingAverage, 1.0, 0.0);
         firstFlag = false;
         fileCounter = 0;
@@ -352,10 +393,13 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     
     cvCvtColor(difference,greyImage,CV_RGB2GRAY);
     
-    cvThreshold(greyImage, greyImage, 120, 255, CV_THRESH_BINARY);
+    cvThreshold(greyImage, greyImage, 100, 255, CV_THRESH_BINARY);
     
     cvDilate(greyImage, greyImage, 0, 18);
     cvErode(greyImage, greyImage, 0, 10);
+    IplConvKernel* kernel;
+    kernel = cvCreateStructuringElementEx(3, 3, 1, 1, CV_SHAPE_CROSS, NULL);
+    cvMorphologyEx(greyImage, greyImage, NULL, kernel, CV_MOP_OPEN, 1);    
     
     cvClearMemStorage(storage);
     CvSeq* contour = 0;
@@ -365,17 +409,25 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
      
     for( ; contour != 0; contour = contour->h_next )
     {
-        Disturbances++;
+        CvRect bndRect = cvRect(0,0,0,0); 
+        bndRect = cvBoundingRect(contour, 0); 
+        if (bndRect.width * bndRect.height > 250*sensibilityValue)
+        {
+            Disturbances++;
+            NSLog(@"contour detected with size: %d\n", bndRect.width * bndRect.height);
+        }
     }
     
     if(Disturbances > 0)
     {
- //       NSLog(@"motion detected: %d\n", Disturbances);
+//        NSLog(@"motion detected: %d\n", Disturbances);
 //        [self performSelector:@selector(delayedCapture) withObject:nil afterDelay:1];    
         if(!motionStart)
         {
             tlog = (double)cv::getTickCount();
             motionStart = true;
+            [self performSelectorOnMainThread:@selector(setDetectionLabel) withObject:nil waitUntilDone:true];
+//            NSLog(@"motion detected: %d\n", Disturbances);
         }    
     }
     
@@ -420,6 +472,21 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
         fileCounter ++;
         NSLog(@"save file number: %d", fileCounter);
     }
+}
+
+- (void) setDetectionLabel
+{
+    if(hideCameraView) return;
+    motionLabel.alpha = 1;
+    [self performSelector:@selector(resetDetectionLabel) withObject:nil afterDelay:3];    
+}
+
+- (void) resetDetectionLabel
+{
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationDuration:1.0];
+    motionLabel.alpha = 0;
+    [UIView commitAnimations];
 }
 
 - (void) saveViewToFile:(UIView *)someView{
