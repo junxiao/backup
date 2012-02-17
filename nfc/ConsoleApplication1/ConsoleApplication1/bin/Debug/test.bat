@@ -1,0 +1,1 @@
+"C:\Program Files (x86)\Stereoscopic Player\StereoPlayer.exe" -file:demo1.mp4
