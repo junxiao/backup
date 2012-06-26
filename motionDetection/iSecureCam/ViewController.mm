@@ -338,7 +338,6 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     
     if(motionStart)
     {
-//        NSLog(@"motion started:\n");
         float t = 2*((double)cv::getTickCount() - tlog) / cv::getTickFrequency();
         if (t>1)
         {
@@ -414,20 +413,16 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
         if (bndRect.width * bndRect.height > 250*sensibilityValue)
         {
             Disturbances++;
-            NSLog(@"contour detected with size: %d\n", bndRect.width * bndRect.height);
         }
     }
     
     if(Disturbances > 0)
     {
-//        NSLog(@"motion detected: %d\n", Disturbances);
-//        [self performSelector:@selector(delayedCapture) withObject:nil afterDelay:1];    
         if(!motionStart)
         {
             tlog = (double)cv::getTickCount();
             motionStart = true;
             [self performSelectorOnMainThread:@selector(setDetectionLabel) withObject:nil waitUntilDone:true];
-//            NSLog(@"motion detected: %d\n", Disturbances);
         }    
     }
     
@@ -465,7 +460,6 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
         NSString *documentsDirectory = [paths objectAtIndex:0];
         NSString* path = [documentsDirectory stringByAppendingPathComponent: 
                           [NSString stringWithFormat: @"%@-%d.jpg", dateString, fileCounter]];
-  //      NSData* data = UIImagePNGRepresentation(image);
         NSData *data = [NSData dataWithData:UIImageJPEGRepresentation(image, 0.5f)];//1.0f = 100% quality
 
         [data writeToFile:path atomically:YES];

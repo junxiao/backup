@@ -27,9 +27,7 @@
     IBOutlet UILabel* motionLabel;
 	
 	AVCaptureSession* session;
-//	CvHaarClassifierCascade* cascade;
     IplImage* movingAverage;
-//    IplImage* temp;
 	CvMemStorage* storage;
     bool firstFlag;
     bool captureFlag;
@@ -46,7 +44,6 @@
     ADBannerView *adView;
     BOOL bannerIsVisible;
     
-//    NSString *documentsDirectory;
 }
 - (IBAction)showSettingsPush:(id)sender;
 
