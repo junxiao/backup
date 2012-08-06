@@ -15,11 +15,11 @@
                         <rect key="frame" x="0.0" y="20" width="320" height="460"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="CRt-Ev-jlz">
-                                <rect key="frame" x="282" y="9" width="18" height="19"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="CRt-Ev-jlz">
+                                <rect key="frame" x="288" y="10" width="18" height="19"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal">
+                                <state key="normal" image="settings.png">
                                     <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -63,22 +63,20 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="48"/>
-                                <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="numbersAndPunctuation" enablesReturnKeyAutomatically="YES"/>
-                                <connections>
-                                    <action selector="userDoneEnteringText:" destination="4" eventType="editingDidEndOnExit" id="vhK-ta-ZdA"/>
-                                </connections>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="numberPad" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
                             </textField>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                     </view>
                     <connections>
                         <outlet property="operatorLbl" destination="I67-Mu-Xcn" id="nI4-Zo-qiA"/>
+                        <outlet property="textField" destination="Q82-is-F6e" id="HFw-U4-tcv"/>
                         <outlet property="variable1Lbl" destination="VS0-dl-Iog" id="lMI-RV-EJl"/>
                         <outlet property="variable2Lbl" destination="WYh-5l-0bU" id="3Un-2I-ktI"/>
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="72" y="151"/>
+            <point key="canvasLocation" x="-301" y="-464"/>
         </scene>
         <!--View Controller setting-->
         <scene sceneID="bQb-gQ-Esb">
@@ -90,10 +88,10 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="qXL-l6-Lwv">
-                                <rect key="frame" x="124" y="403" width="72" height="37"/>
+                                <rect key="frame" x="20" y="403" width="125" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="Done">
+                                <state key="normal" title="Save Settings">
                                     <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -112,41 +110,56 @@
                                     <outlet property="delegate" destination="Sal-Ba-DyY" id="W4a-yN-isD"/>
                                 </connections>
                             </pickerView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Number of questoins:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="HcY-Yp-EZD">
-                                <rect key="frame" x="9" y="263" width="165" height="22"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="questions" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="HcY-Yp-EZD">
+                                <rect key="frame" x="74" y="267" width="86" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="20" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="UbY-9H-WpS">
-                                <rect key="frame" x="156" y="264" width="42" height="21"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="20" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="UbY-9H-WpS">
+                                <rect key="frame" x="44" y="268" width="42" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stepper opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="20" minimumValue="10" maximumValue="100" id="9We-In-dhn">
-                                <rect key="frame" x="206" y="263" width="94" height="27"/>
+                                <rect key="frame" x="183" y="265" width="94" height="27"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <connections>
                                     <action selector="stepperPressed:" destination="ey8-pb-Gry" eventType="valueChanged" id="pz0-uR-v9s"/>
                                 </connections>
                             </stepper>
                             <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="UmW-En-g4A">
-                                <rect key="frame" x="221" y="311" width="79" height="27"/>
+                                <rect key="frame" x="198" y="308" width="79" height="27"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <connections>
                                     <action selector="switchPressed:" destination="ey8-pb-Gry" eventType="valueChanged" id="Xl5-4n-FCN"/>
                                 </connections>
                             </switch>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Penalty for wrong answers:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="szg-gm-jhn">
-                                <rect key="frame" x="9" y="314" width="207" height="22"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Penalty for mistake" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="szg-gm-jhn">
+                                <rect key="frame" x="44" y="311" width="146" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="RDp-3t-IBr">
+                                <rect key="frame" x="168" y="403" width="126" height="37"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="View History">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="T6a-wV-AWF" kind="modal" modalTransitionStyle="flipHorizontal" id="za9-Zu-6NS"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -154,15 +167,119 @@
                         <outlet property="pickerView" destination="7Jy-fe-LOk" id="ZdF-2r-Pl7"/>
                         <outlet property="questionNumberLbl" destination="UbY-9H-WpS" id="4sp-Jk-3sl"/>
                         <outlet property="questionNumberStepper" destination="9We-In-dhn" id="jps-LT-dIx"/>
+                        <outlet property="switchView" destination="UmW-En-g4A" id="xkh-5N-WC2"/>
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="417" y="151"/>
+            <point key="canvasLocation" x="-379" y="271"/>
+        </scene>
+        <!--Log View Controller - History-->
+        <scene sceneID="bHA-vA-ppd">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jhD-de-AeI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tableViewController id="q6Y-2G-rpP" customClass="LogViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="2qa-t4-G0f">
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="logCell" textLabel="DfT-DE-svj" detailTextLabel="d6a-cl-6cA" style="IBUITableViewCellStyleSubtitle" id="IYf-p6-9ai">
+                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="300" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="DfT-DE-svj">
+                                            <rect key="frame" x="10" y="2" width="38" height="22"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </label>
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="d6a-cl-6cA">
+                                            <rect key="frame" x="10" y="24" width="47" height="18"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <color key="textColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                            </tableViewCell>
+                        </prototypes>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="History" id="rDi-8L-vsg">
+                        <barButtonItem key="leftBarButtonItem" systemItem="done" id="rGz-wT-kHB">
+                            <connections>
+                                <segue destination="2" kind="modal" modalTransitionStyle="flipHorizontal" id="eDH-fm-0z2"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Clear history" id="TGf-br-K9v">
+                            <connections>
+                                <action selector="clearButtonClick:" destination="q6Y-2G-rpP" id="a02-ny-UC3"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </tableViewController>
+            </objects>
+            <point key="canvasLocation" x="899" y="21"/>
+        </scene>
+        <!--Navigation Controller - Test Log-->
+        <scene sceneID="J24-3i-v8y">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="J9v-uX-Qc9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <navigationController title="Test Log" definesPresentationContext="YES" id="T6a-wV-AWF" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="vvY-u8-gI0"/>
+                    <navigationBar key="navigationBar" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="Kkb-db-R8l">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="q6Y-2G-rpP" kind="relationship" relationship="rootViewController" id="3Je-bD-Ny2"/>
+                    </connections>
+                </navigationController>
+            </objects>
+            <point key="canvasLocation" x="261" y="119"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="settings.png" width="41" height="41"/>
+    </resources>
+    <classes>
+        <class className="LogViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/LogViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="clearButtonClick:"/>
+            </relationships>
+        </class>
+        <class className="ViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="operatorLbl" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="textField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="variable1Lbl" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="variable2Lbl" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="ViewController_setting" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ViewController_setting.h"/>
+            <relationships>
+                <relationship kind="action" name="stepperPressed:" candidateClass="UIStepper"/>
+                <relationship kind="action" name="switchPressed:" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="pickerView" candidateClass="UIPickerView"/>
+                <relationship kind="outlet" name="questionNumberLbl" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="questionNumberStepper" candidateClass="UIStepper"/>
+                <relationship kind="outlet" name="switchView" candidateClass="UISwitch"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="eDH-fm-0z2"/>
+    </inferredMetricsTieBreakers>
 </document>

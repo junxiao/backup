@@ -14,30 +14,33 @@
     IBOutlet UILabel *variable1Lbl;
     IBOutlet UILabel *variable2Lbl;
     IBOutlet UILabel *operatorLbl;
+    IBOutlet UITextField *textField;
 
     int questionNumber;
+    int questionNumberTotal;
+    int mistakeNumber;
     int level;
     bool penaltyOn;
     
     int answerNumber;
     
     NSTimeInterval startTime;
-
+    NSMutableArray *logArray; 
+    NSMutableString *mistakeString;
 
 }
 @property(nonatomic,retain) IBOutlet UILabel *variable1Lbl;
 @property(nonatomic,retain) IBOutlet UILabel *variable2Lbl;
 @property(nonatomic,retain) IBOutlet UILabel *operatorLbl;
+@property(nonatomic,retain) IBOutlet UITextField *textField;
 
 
--(IBAction)userDoneEnteringText:(id)sender;
-//- (void) setLevel: (int) i;
+
 
 -(void) resetQuestion;
 -(void) endTest;
 
 -(BOOL) checkAnswerOK:(NSString *) answerText;
 
--(BOOL) isFinal;
 -(void) loadSettings;
 @end

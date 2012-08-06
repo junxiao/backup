@@ -12,6 +12,7 @@
 {
     NSMutableArray *arrayNo;
     IBOutlet UIPickerView *pickerView;
+    IBOutlet UISwitch *switchView;
     int questionNumber;
     int level;
     bool penaltyOn;
@@ -20,6 +21,7 @@
 
 }
 @property(nonatomic,retain) IBOutlet UILabel *questionNumberLbl;
+@property(nonatomic,retain) IBOutlet UISwitch *switchView;
 @property(nonatomic,retain) IBOutlet UIStepper *questionNumberStepper;
 
 //- (void) setLevel: (int) i;

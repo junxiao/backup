@@ -15,7 +15,7 @@
 
 @implementation ViewController_setting
 
-@synthesize questionNumberLbl, questionNumberStepper;
+@synthesize questionNumberLbl, questionNumberStepper, switchView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -34,12 +34,17 @@
     [self loadSettings];
     
     arrayNo = [[NSMutableArray alloc] init];
-    [arrayNo addObject:@" double digit +- single digit "];
-    [arrayNo addObject:@" double digit +- within 100 "];
-    [arrayNo addObject:@" time table within 5 "];
+    [arrayNo addObject:@"Level 1: 7+9=?"];
+    [arrayNo addObject:@"Level 2: 17-9=?"];
+    [arrayNo addObject:@"Level 3: 34+5=?"];
+    [arrayNo addObject:@"Level 4: 76-9=?"];
+    [arrayNo addObject:@"Level 5: 34+48=?"];
+    [arrayNo addObject:@"Level 6: 95-38=?"];
+    [arrayNo addObject:@"Level 7: 5*5=?"];
+    [arrayNo addObject:@"Level 8: 7*9=?"];
     
     [pickerView selectRow:level inComponent:0 animated:NO];
-    
+    switchView.on = penaltyOn;
     questionNumberStepper.value = questionNumber;
     [questionNumberLbl setText:[NSString stringWithFormat:@"%d", questionNumber]];
     
